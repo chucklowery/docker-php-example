@@ -22,3 +22,4 @@ jobs:
             sleep 10
             docker logs test 2>& 1 | grep started && break
            done
+  
