@@ -1,0 +1,24 @@
+name: build
+on:
+  push:
+    branches:
+      - docker
+
+job:
+  docker:
+    run-on: ubuntu-18.04
+    steps:
+      - 
+        name: checkout
+        uses: actions/checkout@v2
+      - 
+        name: verify-image
+        run: |         
+          set -x
+          docker build --tag academiaonline/simplilearn-phpinfo:testing .
+          docker run --detach --name test academiaonline/simplilearn-phpinfo:testing
+          while true
+          do
+            sleep 10
+            docker logs test 2>& 1 | grep started && break
+           done
